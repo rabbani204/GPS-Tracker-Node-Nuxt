@@ -47,6 +47,11 @@ export default {
 		bus: {},
 		errormsg: ''
 	}),
+	mounted(){
+        if( !localStorage.getItem('userinfo')){
+			this.$router.push('/login')
+		}
+	},
 	methods:{
         addschedul(){
 			console.log(this.bus)

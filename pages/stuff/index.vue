@@ -44,6 +44,9 @@ export default {
         schedul : ''
 	}),
 	mounted(){
+		if(!localStorage.getItem('userinfo')){
+			this.$router.push('/login')
+		}
         this.$axios.$get('/api/stuff/schedul').then(v=>{
 			this.schedul = v;
 		})

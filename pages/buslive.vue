@@ -27,6 +27,9 @@
 								<li class="list-group-item">Driver: Mr. Litton</li>
 								<li class="list-group-item">Destinaton: Dhanmondis</li>
 							</ul>
+							<div class="currentposition">
+		                        <Map />
+							</div>
 						</div>
 					</div>
 					<div class="col-md-3"></div>
@@ -38,6 +41,7 @@
 </template>
 <script>
 import Multiselect from 'vue-multiselect'
+// import Map from "~/components/combine/map";
 export default {
 	components:{ Multiselect },
 	layout: 'user',

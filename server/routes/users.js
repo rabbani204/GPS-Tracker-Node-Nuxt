@@ -13,5 +13,6 @@ router.get('/', Auth, (req,res,next)=>{
 });
 
 router.post('/user/login', UserController.login)
+router.post('/user/adduser', UserController.adduser)
 
 module.exports = router
