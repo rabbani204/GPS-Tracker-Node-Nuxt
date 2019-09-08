@@ -3,11 +3,18 @@ const fs = require('fs')
 const router = express.Router();
 const UserController = require('../controllers/users');
 const Schedul = require('../models/schedul');
+const Location = require('../models/locations');
 
 const Auth = require('../middleware/authMiddleware');
 
 router.get('/schedul', (req,res,next)=>{
 	Schedul.find({}).then(function (sch) {
+        res.json(sch);
+    });
+});
+
+router.get('/location', (req,res,next)=>{
+	Location.find({}).then(function (sch) {
         res.json(sch);
     });
 });

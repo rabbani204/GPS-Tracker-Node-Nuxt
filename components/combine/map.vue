@@ -23,7 +23,7 @@
 
 <script>
 export default {
-  props: ["location", "order_location"],
+  props: ["location"],
   data() {
     return {
       address: this.location,
@@ -33,33 +33,11 @@ export default {
 
   mounted() {
     this.$refs.myMap.$mapPromise.then(map => {
-      console.log("Props: ", this.location);
-      // if (this.location) {
-      //   this.getGeocodeLatLng();
-      // }
+      if (this.location) {
+        this.getGeocodeLatLng();
+      }
       map.setCenter(this.markers[0].position);
       map.setZoom(17);
-      var directionsService = new google.maps.DirectionsService();
-      var directionsDisplay = new google.maps.DirectionsRenderer();
-
-      directionsDisplay.setMap(map);
-
-      var request = {
-        origin: this.location,
-        destination: this.order_location,
-        // Note that Javascript allows us to access the constant
-        // using square brackets and a string value as its
-        // "property."
-        travelMode: google.maps.DirectionsTravelMode.DRIVING,
-        provideRouteAlternatives: true,
-      };
-
-      directionsService.route(request, function(response, status) {
-        if (status == "OK") {
-          console.log("response: ",response)
-          directionsDisplay.setDirections(response);
-        }
-      });
     });
   },
   methods: {
@@ -86,7 +64,7 @@ export default {
         //do your result related activities here, maybe push the coordinates to the backend for later use, etc.
         if (status === google.maps.GeocoderStatus.OK) {
           $this.address = results[0].formatted_address;
-          // $this.$emit("coordinates", $this.address);
+          $this.$emit("coordinates", $this.address);
         }
       });
     },
@@ -116,11 +94,9 @@ export default {
         map.setCenter(place.geometry.location);
         map.setZoom(17);
         this.markers[0].position = place.geometry.location;
-        // this.$emit("coordinates", place.formatted_address);
+        this.$emit("coordinates", place.formatted_address);
       });
-    },
-
-    getDirection() {}
+    }
   }
 };
 </script>
@@ -132,4 +108,5 @@ export default {
   box-sizing: border-box;
   height: 3rem;
 }
+
 </style>

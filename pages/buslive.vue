@@ -23,12 +23,31 @@
 								{{value}}
 							</div>
 							<ul class="list-group list-group-flush">
-								<li class="list-group-item">Location: Mirpur</li>
 								<li class="list-group-item">Driver: Mr. Litton</li>
 								<li class="list-group-item">Destinaton: Dhanmondis</li>
+								<li class="list-group-item">
+								</li>
 							</ul>
 							<div class="currentposition">
-		                        <Map />
+								  <div>
+									<GmapMap
+									ref="myMap"
+									:center="{ lat: 23.777176,lng:90.399452}"
+									:zoom="17"
+									map-type-id="terrain"
+									style="width: 100%; height: 400px"
+									@click="onClick"
+									>
+									<GmapMarker
+										:key="index"
+										v-for="(m, index) in markers"
+										:position="m.position"
+										:clickable="true"
+										:draggable="true"
+										@click="center=m.position"
+									/>
+									</GmapMap>
+							</div>
 							</div>
 						</div>
 					</div>
@@ -41,14 +60,25 @@
 </template>
 <script>
 import Multiselect from 'vue-multiselect'
-// import Map from "~/components/combine/map";
+// import Map from "~/components/combine/Map";
 export default {
-	components:{ Multiselect },
+	components:{ Multiselect},
 	layout: 'user',
 	data: ()=> ({
 		value: null,
-		options: ['Surjomukhi-23', 'Surjomukhi-24', 'Surjomukhi-25', 'AC-1', 'AC-2']
-	})
+		options: ['Surjomukhi-12'],
+		markers: [{ position: { lat: 23.777176, lng: 90.399452 } }]
+	}),
+
+	mounted(){
+		let res = this.$axios.$get('/api/stuff/location').then(v=>{
+			let lat = v[1].location.substring(5, 16)
+			let lang = v[1].location.substring(23, 33)
+			let mrker = [{ position: { lat:parseFloat(v[1].location.substring(5, 16)), lng: parseFloat(v[1].location.substring(23, 33)) } }]
+			this.markers = mrker;
+			console.log(this.markers)
+		})
+	}
 }
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css">
