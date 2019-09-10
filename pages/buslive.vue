@@ -12,7 +12,7 @@
 		</section>
 		<div class="container" id="bodyholder">
 			<br>
-            	<multiselect v-model="value" :options="options"></multiselect>
+            	<multiselect v-model="value" :options="options" @select="onSelect"></multiselect>
 			<br>
             <div class="container" v-if="value">
 				<div class="row">
@@ -22,36 +22,28 @@
 							<div class="card-header">
 								{{value}}
 							</div>
-							<ul class="list-group list-group-flush">
-								<li class="list-group-item">Driver: Mr. Litton</li>
-								<li class="list-group-item">Destinaton: Dhanmondis</li>
-								<li class="list-group-item">
-								</li>
-							</ul>
+						</div><br>
 							<div class="currentposition">
-								  <div>
+								<div>
 									<GmapMap
 									ref="myMap"
-									:center="{ lat: 23.777176,lng:90.399452}"
+									:center="{ lat: 23.8718795,lng:90.320803}"
 									:zoom="17"
 									map-type-id="terrain"
-									style="width: 100%; height: 400px"
-									@click="onClick"
+									style="width: 900px; height: 500px"
 									>
 									<GmapMarker
 										:key="index"
 										v-for="(m, index) in markers"
 										:position="m.position"
-										:clickable="true"
 										:draggable="true"
-										@click="center=m.position"
 									/>
 									</GmapMap>
+								</div>
 							</div>
-							</div>
-						</div>
 					</div>
-					<div class="col-md-3"></div>
+					<div class="col-md-3">
+					</div>
 				</div>
 				<br>
 			</div>
@@ -67,17 +59,40 @@ export default {
 	data: ()=> ({
 		value: null,
 		options: ['Surjomukhi-12'],
-		markers: [{ position: { lat: 23.777176, lng: 90.399452 } }]
+		 markers: [{ position: { lat: 23.8718795, lng: 90.320803 } }]
 	}),
 
 	mounted(){
-		let res = this.$axios.$get('/api/stuff/location').then(v=>{
-			let lat = v[1].location.substring(5, 16)
-			let lang = v[1].location.substring(23, 33)
-			let mrker = [{ position: { lat:parseFloat(v[1].location.substring(5, 16)), lng: parseFloat(v[1].location.substring(23, 33)) } }]
-			this.markers = mrker;
+	},
+	methods:{
+		getlocation(){
+		setInterval(() => {
+			let res = this.$axios.$get('/api/stuff/location').then(v=>{
+			const lat = parseFloat(v[1].location.substring(5, 16))
+			const lang = parseFloat(v[1].location.substring(23, 33))
+			console.log(lat, lang)
+			console.log(lat, typeof(lang))
+			let obj = {
+				"lat": lat,
+				"lng": lang
+			}
+
+			let mrker = {}
+
+			mrker.position = obj;
+			console.log(mrker)
+			
+			// const mrker = {position: { "lat": 23, "lng": 90 }};
+			// console.log(mrker)
+			this.markers.push(mrker);
 			console.log(this.markers)
 		})
+		}, 10000);
+		},
+		onSelect(){
+			console.log('selected')
+			this.getlocation()
+		}
 	}
 }
 </script>
