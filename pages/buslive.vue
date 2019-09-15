@@ -27,7 +27,7 @@
 								<div>
 									<GmapMap
 									ref="myMap"
-									:center="{ lat: 23.8718795,lng:90.320803}"
+									:center="{ lat: 23.875085,lng:90.321563}"
 									:zoom="17"
 									map-type-id="terrain"
 									style="width: 900px; height: 500px"
@@ -59,7 +59,7 @@ export default {
 	data: ()=> ({
 		value: null,
 		options: ['Surjomukhi-12'],
-		 markers: [{ position: { lat: 23.8718795, lng: 90.320803 } }]
+		 markers: []
 	}),
 
 	mounted(){
@@ -76,15 +76,16 @@ export default {
 				"lat": lat,
 				"lng": lang
 			}
-
 			let mrker = {}
-
 			mrker.position = obj;
 			console.log(mrker)
 			
 			// const mrker = {position: { "lat": 23, "lng": 90 }};
 			// console.log(mrker)
-			this.markers.push(mrker);
+			let mrkk = []
+			mrkk.push(mrker)
+			this.markers = mrkk;
+			// this.markers[1] = mrker;
 			console.log(this.markers)
 		})
 		}, 10000);
